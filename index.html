@@ -1,301 +1,428 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Population Projection Calculator</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Population Projection Calculator - Dark Mode</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .calculator {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        .input-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        button {
-            background-color: #007cba;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #005a87;
-        }
-        .results {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        .result-item {
-            margin: 10px 0;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 4px;
-        }
-        .chart-container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        h1, h2 {
-            color: #333;
-        }
+      /* Modern Dark Mode Color Variables */
+      :root {
+        --color-background-body: #121212;
+        --color-background-card: #1e1e1e;
+        --color-text-primary: #e0e0e0;
+        --color-text-secondary: #b3b3b3;
+        --color-accent: #00bcd4; /* Cyan/Teal for modern look */
+        --color-accent-hover: #00a4b8;
+        --color-border: #333333;
+        --color-input-bg: #2d2d2d;
+        --color-result-item-bg: #282828;
+        --color-shadow: rgba(0, 0, 0, 0.5);
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 30px 20px;
+        background-color: var(--color-background-body);
+        color: var(--color-text-primary);
+        line-height: 1.6;
+      }
+
+      .calculator,
+      .results,
+      .chart-container {
+        background: var(--color-background-card);
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px var(--color-shadow);
+        margin-bottom: 25px;
+        transition: box-shadow 0.3s ease;
+      }
+
+      h1,
+      h2 {
+        color: var(--color-accent);
+        border-bottom: 2px solid var(--color-border);
+        padding-bottom: 10px;
+        margin-top: 0;
+      }
+
+      p {
+        color: var(--color-text-secondary);
+      }
+
+      .input-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--color-border);
+        border-radius: 6px;
+        box-sizing: border-box;
+        background-color: var(--color-input-bg);
+        color: var(--color-text-primary);
+        font-size: 1rem;
+        transition: border-color 0.3s;
+      }
+
+      input:focus {
+        border-color: var(--color-accent);
+        outline: none;
+      }
+
+      button {
+        width: 100%;
+        background-color: var(--color-accent);
+        color: var(--color-background-card);
+        padding: 12px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        font-weight: bold;
+        transition: background-color 0.3s, transform 0.1s;
+      }
+
+      button:hover {
+        background-color: var(--color-accent-hover);
+        transform: translateY(-1px);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      .result-item {
+        margin: 12px 0;
+        padding: 15px;
+        background: var(--color-result-item-bg);
+        border-left: 5px solid var(--color-accent);
+        border-radius: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .result-item strong {
+        font-weight: 600;
+      }
+
+      .result-item span {
+        font-weight: bold;
+        color: var(--color-accent);
+        font-size: 1.1rem;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="calculator">
-        <h1>Population Projection Calculator</h1>
-        <p>This tool projects population change using Total Fertility Rate (TFR), Life Expectancy, and Median Age. It models population aging and births directly — no crude birth/death rates are used.</p>
+      <h1>Population Projection Calculator</h1>
+      <p>
+        This tool projects population change using Total Fertility Rate (TFR),
+        Life Expectancy, and Median Age. It models population aging and births
+        directly — no crude birth/death rates are used.
+      </p>
 
-        <div class="input-group">
-            <label for="initialPopulation">Initial Population (P<sub>i</sub>):</label>
-            <input type="number" id="initialPopulation" value="1000000" min="1">
-        </div>
+      <div class="input-group">
+        <label for="initialPopulation">Initial Population ($P_i$):</label>
+        <input type="number" id="initialPopulation" value="1000000" min="1" />
+      </div>
 
-        <div class="input-group">
-            <label for="tfr">Total Fertility Rate (children per woman):</label>
-            <input type="number" id="tfr" value="2.1" step="0.1" min="0" max="10">
-        </div>
+      <div class="input-group">
+        <label for="tfr">Total Fertility Rate (children per woman):</label>
+        <input type="number" id="tfr" value="2.1" step="0.1" min="0" max="10" />
+      </div>
 
-        <div class="input-group">
-            <label for="lifeExpectancy">Life Expectancy (years):</label>
-            <input type="number" id="lifeExpectancy" value="80" step="1" min="1" max="120">
-        </div>
+      <div class="input-group">
+        <label for="lifeExpectancy">Life Expectancy (years):</label>
+        <input
+          type="number"
+          id="lifeExpectancy"
+          value="80"
+          step="1"
+          min="1"
+          max="120"
+        />
+      </div>
 
-        <div class="input-group">
-            <label for="medianAge">Median Age (years):</label>
-            <input type="number" id="medianAge" value="35" step="1" min="0" max="120">
-        </div>
+      <div class="input-group">
+        <label for="medianAge">Median Age (years):</label>
+        <input
+          type="number"
+          id="medianAge"
+          value="35"
+          step="1"
+          min="0"
+          max="120"
+        />
+      </div>
 
-        <div class="input-group">
-            <label for="years">Years to Project:</label>
-            <input type="number" id="years" value="100" min="1" max="300">
-        </div>
+      <div class="input-group">
+        <label for="years">Years to Project:</label>
+        <input type="number" id="years" value="100" min="1" max="300" />
+      </div>
 
-        <button onclick="simulatePopulation()">Simulate Population</button>
+      <button onclick="simulatePopulation()">Simulate Population</button>
     </div>
 
-    <div class="results" id="results" style="display:none;">
-        <h2>Results</h2>
-        <div class="result-item"><strong>Final Population:</strong> <span id="finalPop"></span></div>
-        <div class="result-item"><strong>Total Change:</strong> <span id="change"></span></div>
-        <div class="result-item"><strong>Percentage Change:</strong> <span id="pctChange"></span></div>
+    <div class="results" id="results" style="display: none">
+      <h2>Projection Summary</h2>
+      <div class="result-item">
+        <strong>Final Population:</strong> <span id="finalPop"></span>
+      </div>
+      <div class="result-item">
+        <strong>Total Change:</strong> <span id="change"></span>
+      </div>
+      <div class="result-item">
+        <strong>Percentage Change:</strong> <span id="pctChange"></span>
+      </div>
     </div>
 
     <div class="chart-container">
-        <canvas id="populationChart"></canvas>
+      <h2>Population Trend</h2>
+      <canvas id="populationChart"></canvas>
     </div>
 
-<script>
-let populationChart = null;
+    <script>
+      let populationChart = null;
+      // Define dark mode colors for Chart.js
+      const chartAccentColor = getComputedStyle(document.documentElement)
+        .getPropertyValue("--color-accent")
+        .trim();
+      const chartTextColor = getComputedStyle(document.documentElement)
+        .getPropertyValue("--color-text-primary")
+        .trim();
+      const chartGridColor =
+        getComputedStyle(document.documentElement)
+          .getPropertyValue("--color-border")
+          .trim() + "80"; // Add transparency
 
-function simulatePopulation() {
-    const initialPop = parseFloat(document.getElementById('initialPopulation').value);
-    const tfr = parseFloat(document.getElementById('tfr').value);
-    const lifeExp = parseFloat(document.getElementById('lifeExpectancy').value);
-    const medianAge = parseFloat(document.getElementById('medianAge').value);
-    const years = parseInt(document.getElementById('years').value);
+      function simulatePopulation() {
+        const initialPop = parseFloat(
+          document.getElementById("initialPopulation").value
+        );
+        const tfr = parseFloat(document.getElementById("tfr").value);
+        const lifeExp = parseFloat(
+          document.getElementById("lifeExpectancy").value
+        );
+        const medianAge = parseFloat(
+          document.getElementById("medianAge").value
+        );
+        const years = parseInt(document.getElementById("years").value);
 
-    if ([initialPop, tfr, lifeExp, medianAge, years].some(isNaN)) {
-        alert("Please fill in all fields correctly.");
-        return;
-    }
+        if ([initialPop, tfr, lifeExp, medianAge, years].some(isNaN)) {
+          alert("Please fill in all fields correctly.");
+          return;
+        }
 
-    const maxAge = Math.max( Math.ceil(lifeExp * 1.5), 3 );
-    const burnYears = Math.max(5 * maxAge, 200); // enough to converge
+        const maxAge = Math.max(Math.ceil(lifeExp * 1.5), 3);
+        const burnYears = Math.max(5 * maxAge, 200); // enough to converge
 
-    // Build a stable age structure via burn-in from a 1-person seed
-    let populationByAge = buildStablePopulation(tfr, lifeExp, maxAge, burnYears);
+        // Build a stable age structure via burn-in from a 1-person seed
+        let populationByAge = buildStablePopulation(
+          tfr,
+          lifeExp,
+          maxAge,
+          burnYears
+        );
 
-    // Nudge median age smoothly if requested
-    const currentMedian = computeMedianAge(populationByAge);
-    const shift = medianAge - currentMedian;
-    if (Math.abs(shift) > 0.05) populationByAge = fractionalShift(populationByAge, shift);
+        // Nudge median age smoothly if requested
+        const currentMedian = computeMedianAge(populationByAge);
+        const shift = medianAge - currentMedian;
+        if (Math.abs(shift) > 0.05)
+          populationByAge = fractionalShift(populationByAge, shift);
 
-    // Scale to the requested initial population total
-    const sum = populationByAge.reduce((a,b)=>a+b,0);
-    populationByAge = populationByAge.map(v => v * (initialPop / sum));
+        // Scale to the requested initial population total
+        const sum = populationByAge.reduce((a, b) => a + b, 0);
+        populationByAge = populationByAge.map((v) => v * (initialPop / sum));
 
-    // Run the main projection
-    const results = [];
-    for (let year = 0; year <= years; year++) {
-        const totalPop = populationByAge.reduce((a,b)=>a+b,0);
-        results.push(totalPop);
+        // Run the main projection
+        const results = [];
+        for (let year = 0; year <= years; year++) {
+          const totalPop = populationByAge.reduce((a, b) => a + b, 0);
+          results.push(totalPop);
 
-        // Births: The population aged 15..49 (inclusive of 15, exclusive of 50).
-        // It is incorrect to divide the total fertile population by 2 here.
-        const startF = Math.max(0, 15);
-        const endF = Math.min(maxAge, 50);
-        const fertilePopulation = populationByAge.slice(startF, endF).reduce((a,b)=>a+b,0);
-        
-        // --- FINAL FIX HERE ---
-        // 1. We assume 50% of the fertile population are women.
-        const women = fertilePopulation / 2;
-        // 2. We divide TFR by 2 (approx GRR) to get the *female* children per woman,
-        //    then divide by 35 to get the annual female births per woman.
-        const femaleBirthsPerWomanPerYear = (tfr / 2) / 35;
-        // 3. The total new newborns (age 0) are the *daughters* who survive the first year.
-        const births = women * femaleBirthsPerWomanPerYear;
-        // 4. We double the result because the age 0 bin must represent total population (M+F).
-        const totalBirths = births * 2;
-        // ----------------------
+          // Births: The population aged 15..49 (inclusive of 15, exclusive of 50).
+          const startF = Math.max(0, 15);
+          const endF = Math.min(maxAge, 50);
+          const fertilePopulation = populationByAge
+            .slice(startF, endF)
+            .reduce((a, b) => a + b, 0);
 
-        // Age population: apply survival of age a to those at age a (moving them into a+1)
-        const newAges = new Array(maxAge).fill(0);
-        for (let a = 0; a < maxAge - 1; a++) {
-            const surv = annualSurvival(a, lifeExp);      // survival for age a -> a+1
+          // 1. Assume 50% of the fertile population are women.
+          const women = fertilePopulation / 2;
+          // 2. Divide TFR by 2 (approx GRR) and by 35 (fertility years) for annual female births per woman.
+          const femaleBirthsPerWomanPerYear = tfr / 2 / 35;
+          // 3. Total new newborns (age 0) are total births (M+F).
+          const totalBirths = women * femaleBirthsPerWomanPerYear * 2;
+
+          // Age population: apply survival of age a to those at age a (moving them into a+1)
+          const newAges = new Array(maxAge).fill(0);
+          for (let a = 0; a < maxAge - 1; a++) {
+            const surv = annualSurvival(a, lifeExp); // survival for age a -> a+1
             newAges[a + 1] = populationByAge[a] * surv;
+          }
+          newAges[0] = totalBirths; // Use the corrected total births
+          populationByAge = newAges;
         }
-        newAges[0] = totalBirths; // Use the corrected total births
-        populationByAge = newAges;
-    }
 
-    const finalPop = results[results.length - 1];
-    const change = finalPop - initialPop;
-    const pctChange = ((change / initialPop) * 100).toFixed(2);
+        const finalPop = results[results.length - 1];
+        const change = finalPop - initialPop;
+        const pctChange = ((change / initialPop) * 100).toFixed(2);
 
-    document.getElementById("results").style.display = "block";
-    document.getElementById("finalPop").textContent = finalPop.toLocaleString();
-    document.getElementById("change").textContent = (change >= 0 ? "+" : "") + change.toLocaleString();
-    document.getElementById("pctChange").textContent = (pctChange >= 0 ? "+" : "") + pctChange + "%";
+        document.getElementById("results").style.display = "block";
+        document.getElementById("finalPop").textContent =
+          finalPop.toLocaleString(undefined, { maximumFractionDigits: 0 });
+        document.getElementById("change").textContent =
+          (change >= 0 ? "+" : "") +
+          change.toLocaleString(undefined, { maximumFractionDigits: 0 });
+        document.getElementById("pctChange").textContent =
+          (pctChange >= 0 ? "+" : "") + pctChange + "%";
 
-    drawChart(results);
-}
+        drawChart(results);
+      }
 
-// Build stable population via burn-in
-function buildStablePopulation(tfr, lifeExp, maxAge, burnYears) {
-    let pop = new Array(maxAge).fill(0);
-    pop[0] = 1.0; // single newborn seed
+      // Build stable population via burn-in
+      function buildStablePopulation(tfr, lifeExp, maxAge, burnYears) {
+        let pop = new Array(maxAge).fill(0);
+        pop[0] = 1.0; // single newborn seed
 
-    for (let y = 0; y < burnYears; y++) {
-        const fertilePopulation = pop.slice(15, 50).reduce((a,b)=>a+b,0);
-        const women = fertilePopulation / 2;
-        const femaleBirthsPerWomanPerYear = (tfr / 2) / 35;
-        const totalBirths = (women * femaleBirthsPerWomanPerYear) * 2;
+        for (let y = 0; y < burnYears; y++) {
+          const fertilePopulation = pop
+            .slice(15, 50)
+            .reduce((a, b) => a + b, 0);
+          const women = fertilePopulation / 2;
+          const femaleBirthsPerWomanPerYear = tfr / 2 / 35;
+          const totalBirths = women * femaleBirthsPerWomanPerYear * 2;
 
-        const next = new Array(maxAge).fill(0);
-        for (let a = 0; a < maxAge - 1; a++) {
+          const next = new Array(maxAge).fill(0);
+          for (let a = 0; a < maxAge - 1; a++) {
             next[a + 1] = pop[a] * annualSurvival(a, lifeExp);
+          }
+          next[0] = totalBirths;
+          pop = next;
         }
-        next[0] = totalBirths;
-        pop = next;
-    }
 
-    const total = pop.reduce((a,b)=>a+b,0);
-    return pop.map(v => v / total);
-}
+        const total = pop.reduce((a, b) => a + b, 0);
+        return pop.map((v) => v / total);
+      }
 
-// Simple, stable annual survival (from previous fix)
-function annualSurvival(age, lifeExp) {
-    const annualSurvivalRate = Math.exp(-1.0 / Math.max(lifeExp, 1)); 
-    return annualSurvivalRate;
-}
+      // Simple, stable annual survival
+      function annualSurvival(age, lifeExp) {
+        // This is a simple, uniform survival model for stability, not a true life table.
+        const annualSurvivalRate = Math.exp(-1.0 / Math.max(lifeExp, 1));
+        return annualSurvivalRate;
+      }
 
-// Compute median age (fractional inside bin)
-function computeMedianAge(arr) {
-    const total = arr.reduce((a,b)=>a+b,0);
-    let cum = 0;
-    for (let i = 0; i < arr.length; i++) {
-        const prev = cum;
-        cum += arr[i];
-        if (cum >= total / 2) {
+      // Compute median age (fractional inside bin)
+      function computeMedianAge(arr) {
+        const total = arr.reduce((a, b) => a + b, 0);
+        let cum = 0;
+        for (let i = 0; i < arr.length; i++) {
+          const prev = cum;
+          cum += arr[i];
+          if (cum >= total / 2) {
             const within = (total / 2 - prev) / (arr[i] || 1);
             return i + within;
+          }
         }
-    }
-    return arr.length - 1;
-}
+        return arr.length - 1;
+      }
 
-// Fractional shift of distribution (positive => older)
-function fractionalShift(arr, shift) {
-    const n = arr.length;
-    const out = new Array(n).fill(0);
-    for (let i = 0; i < n; i++) {
-        const src = i - shift;
-        const lo = Math.floor(src);
-        const hi = lo + 1;
-        const frac = src - lo;
-        if (lo >= 0 && lo < n) out[i] += arr[lo] * (1 - frac);
-        if (hi >= 0 && hi < n) out[i] += arr[hi] * frac;
-    }
-    const s = out.reduce((a,b)=>a+b,0);
-    const orig = arr.reduce((a,b)=>a+b,0);
-    if (s > 0) return out.map(v => v * (orig / s));
-    return arr.slice();
-}
+      // Fractional shift of distribution (positive => older)
+      function fractionalShift(arr, shift) {
+        const n = arr.length;
+        const out = new Array(n).fill(0);
+        for (let i = 0; i < n; i++) {
+          const src = i - shift;
+          const lo = Math.floor(src);
+          const hi = lo + 1;
+          const frac = src - lo;
+          if (lo >= 0 && lo < n) out[i] += arr[lo] * (1 - frac);
+          if (hi >= 0 && hi < n) out[i] += arr[hi] * frac;
+        }
+        const s = out.reduce((a, b) => a + b, 0);
+        const orig = arr.reduce((a, b) => a + b, 0);
+        if (s > 0) return out.map((v) => v * (orig / s));
+        return arr.slice();
+      }
 
-// Charting (unchanged except small callback style)
-function drawChart(populationArray) {
-    const ctx = document.getElementById("populationChart").getContext("2d");
-    if (populationChart) populationChart.destroy();
+      // Charting
+      function drawChart(populationArray) {
+        const ctx = document.getElementById("populationChart").getContext("2d");
+        if (populationChart) populationChart.destroy();
 
-    populationChart = new Chart(ctx, {
-        type: "line",
-        data: {
+        populationChart = new Chart(ctx, {
+          type: "line",
+          data: {
             labels: populationArray.map((_, i) => i),
-            datasets: [{
+            datasets: [
+              {
                 label: "Population",
                 data: populationArray,
-                borderColor: "#007cba",
-                backgroundColor: "#007cba20",
+                borderColor: chartAccentColor,
+                backgroundColor: chartAccentColor + "40", // Semi-transparent fill
                 borderWidth: 3,
                 fill: true,
-                tension: 0.1
-            }]
-        },
-        options: {
+                tension: 0.4, // Smoother lines
+              },
+            ],
+          },
+          options: {
             responsive: true,
+            maintainAspectRatio: true,
             plugins: {
-                title: { display: true, text: "Population Projection Over Time" },
-                tooltip: {
-                    callbacks: {
-                        label: ctx => `Year ${ctx.label}: ${ctx.parsed.y.toLocaleString()}`
-                    }
-                }
+              title: { display: false }, // Title is in the h2
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) =>
+                    `Year ${ctx.label}: ${ctx.parsed.y.toLocaleString(
+                      undefined,
+                      { maximumFractionDigits: 0 }
+                    )}`,
+                },
+                backgroundColor: "rgba(30, 30, 30, 0.9)",
+                titleColor: chartAccentColor,
+                bodyColor: chartTextColor,
+              },
             },
             scales: {
-                x: { title: { display: true, text: "Years" } },
-                y: { 
-                    title: { display: true, text: "Population" },
-                    ticks: { callback: v => v.toLocaleString() }
-                }
-            }
-        }
-    });
-}
+              x: {
+                title: { display: true, text: "Years", color: chartTextColor },
+                ticks: { color: chartTextColor },
+                grid: { color: chartGridColor },
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: "Population",
+                  color: chartTextColor,
+                },
+                ticks: {
+                  callback: (v) =>
+                    v.toLocaleString(undefined, { maximumFractionDigits: 0 }),
+                  color: chartTextColor,
+                },
+                grid: { color: chartGridColor },
+              },
+            },
+          },
+        });
+      }
 
-window.onload = simulatePopulation;
-</script>
-
-
-</body>
+      window.onload = simulatePopulation;
+    </script>
+  </body>
 </html>

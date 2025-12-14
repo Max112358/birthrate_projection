@@ -136,7 +136,12 @@
 
       <div class="input-group">
         <label for="initialPopulation">Initial Population ($P_i$):</label>
-        <input type="number" id="initialPopulation" value="1000000" min="1" />
+        <input
+          type="text"
+          id="initialPopulation"
+          value="1,000,000"
+          data-number-value="1000000"
+        />
       </div>
 
       <div class="input-group">
@@ -208,9 +213,46 @@
           .getPropertyValue("--color-border")
           .trim() + "80"; // Add transparency
 
+      // --- New Formatting Functions ---
+
+      // Formats a number with locale-specific thousands separators (commas in en-US)
+      function formatNumberWithCommas(n) {
+        // Use the built-in Number.prototype.toLocaleString for robust, locale-aware formatting
+        return Number(n).toLocaleString(undefined, {
+          maximumFractionDigits: 0,
+        });
+      }
+
+      // Cleans an input string, removing all non-digit characters except an optional leading sign
+      function cleanNumberString(s) {
+        return s.replace(/[^\d]/g, ""); // Remove all non-digits
+      }
+
+      // Handler for the Initial Population input field
+      function handleInitialPopulationInput(event) {
+        const inputElement = event.target;
+        const rawValue = cleanNumberString(inputElement.value);
+
+        // Store the raw, clean numeric value in the data attribute for calculations
+        inputElement.setAttribute("data-number-value", rawValue);
+
+        if (rawValue) {
+          // Format the display value with commas
+          inputElement.value = formatNumberWithCommas(rawValue);
+        } else {
+          // Keep the field clear if the user deletes all content
+          inputElement.value = "";
+        }
+      }
+
+      // --- End New Formatting Functions ---
+
       function simulatePopulation() {
+        const initialPopElement = document.getElementById("initialPopulation");
+
+        // *** CRITICAL CHANGE ***: Read the raw value from the data attribute
         const initialPop = parseFloat(
-          document.getElementById("initialPopulation").value
+          initialPopElement.getAttribute("data-number-value")
         );
         const tfr = parseFloat(document.getElementById("tfr").value);
         const lifeExp = parseFloat(
@@ -221,8 +263,13 @@
         );
         const years = parseInt(document.getElementById("years").value);
 
-        if ([initialPop, tfr, lifeExp, medianAge, years].some(isNaN)) {
-          alert("Please fill in all fields correctly.");
+        if (
+          [initialPop, tfr, lifeExp, medianAge, years].some(isNaN) ||
+          initialPop <= 0
+        ) {
+          alert(
+            "Please ensure Initial Population is a valid number greater than 0, and all other fields are filled correctly."
+          );
           return;
         }
 
@@ -422,7 +469,22 @@
         });
       }
 
-      window.onload = simulatePopulation;
+      // --- Initialization Logic ---
+      window.onload = () => {
+        const initialPopInput = document.getElementById("initialPopulation");
+
+        // 1. Initial format of the default value
+        initialPopInput.value = formatNumberWithCommas(
+          initialPopInput.getAttribute("data-number-value")
+        );
+
+        // 2. Add event listeners for dynamic formatting
+        initialPopInput.addEventListener("input", handleInitialPopulationInput);
+        initialPopInput.addEventListener("blur", handleInitialPopulationInput); // Ensures it's formatted when focus is lost
+
+        // 3. Run the initial simulation with the newly formatted value
+        simulatePopulation();
+      };
     </script>
   </body>
 </html>

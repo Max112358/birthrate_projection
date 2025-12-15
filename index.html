@@ -139,8 +139,8 @@
         <input
           type="text"
           id="initialPopulation"
-          value="1,000,000"
-          data-number-value="1000000"
+          value="300,000,000"
+          data-number-value="300000000"
         />
       </div>
 
@@ -166,10 +166,24 @@
         <input
           type="number"
           id="medianAge"
-          value="35"
+          value="38.8"
           step="1"
           min="0"
           max="120"
+        />
+      </div>
+
+      <div class="input-group">
+        <label for="standardDeviation"
+          >Standard Deviation from median age (years):</label
+        >
+        <input
+          type="number"
+          id="standardDeviation"
+          value="13.4"
+          step="1"
+          min="0"
+          max="60"
         />
       </div>
 
@@ -200,56 +214,92 @@
     </div>
 
     <script>
-      // --- Bell Curve Generation ---
       /**
-       * Generates an array of numbers that approximate a normal distribution (bell curve).
+       * @name calculatePDFCount
+       * @description Calculates the expected frequency map (population count) for ages
+       * from 0 to 119 directly using the Normal Distribution's PDF,
+       * eliminating the need for millions of random number generations.
        *
        * @param {number} mean - The desired mean (center/median) of the population.
        * @param {number} stdDev - The desired standard deviation (spread) of the population.
-       * @param {number} size - The number of data points to generate.
-       * @returns {number[]} An array of 'size' numbers centered around 'mean' with 'stdDev' spread.
+       * @param {number} size - The total number of data points (people) to generate (e.g., 300,000,000).
+       * @returns {Object<number, number>} An object where keys are the age (0-119) and values
+       * are the rounded count of people at that age.
        */
-      function generateNormalPopulation(mean, stdDev, size) {
-        const population = [];
+      function generateNormalPopulationMap(mean, stdDev, size) {
+        const ageMap = {};
+        const MIN_AGE = 0;
+        const MAX_AGE = 119;
+        const TWO_PI_SQRT = Math.sqrt(2 * Math.PI); // Pre-calculate sqrt(2*pi)
 
-        // The Box-Muller Transform is used here to generate normally distributed random numbers
-        // from two uniformly distributed random numbers (Math.random()).
-        // It processes two numbers per iteration, so we handle the 'size' carefully.
+        // The Normal Distribution's Probability Density Function (PDF)
+        // PDF(x) = (1 / (stdDev * sqrt(2*pi))) * e^(-0.5 * ((x - mean) / stdDev)^2)
 
-        let phase = 0;
-        let Z0, Z1; // The two generated normal random variables
+        // We can pre-calculate the leading constant
+        const pdf_constant = 1.0 / (stdDev * TWO_PI_SQRT);
 
-        for (let i = 0; i < size; i++) {
-          let rand_val;
+        // --- 1. Calculate the raw (un-normalized) PDF value for each age ---
+        let total_pdf_sum = 0;
+        const raw_pdf_values = {};
 
-          if (phase === 0) {
-            // Phase 0: Generate two new standard normal variables (Z0, Z1)
-            let U1 = Math.random();
-            let U2 = Math.random();
+        // Loop only over the 120 age buckets (0 to 119)
+        for (let age = MIN_AGE; age <= MAX_AGE; age++) {
+          // Z-score calculation: how many standard deviations is this age from the mean?
+          const z = (age - mean) / stdDev;
 
-            // Calculate Z0 and Z1 using the Box-Muller transform
-            Z0 = Math.sqrt(-2.0 * Math.log(U1)) * Math.cos(2.0 * Math.PI * U2);
-            Z1 = Math.sqrt(-2.0 * Math.log(U1)) * Math.sin(2.0 * Math.PI * U2);
+          // PDF core: e^(-0.5 * Z^2)
+          // Use Math.exp() for e^()
+          const pdf_core = Math.exp(-0.5 * z * z);
 
-            // The standard normal variable Z0 has a mean of 0 and stdDev of 1.
-            // Convert Z0 to the desired distribution (mean and stdDev)
-            rand_val = Z0 * stdDev + mean;
-          } else {
-            // Phase 1: Use the second generated variable Z1 from the previous iteration
-            // Convert Z1 to the desired distribution (mean and stdDev)
-            rand_val = Z1 * stdDev + mean;
-          }
+          // Full PDF value for this age
+          const pdf_value = pdf_constant * pdf_core;
 
-          // Toggle the phase for the next iteration
-          phase = 1 - phase;
-
-          population.push(rand_val);
+          raw_pdf_values[age] = pdf_value;
+          total_pdf_sum += pdf_value;
         }
 
-        // If the size was odd, the last number (generated in phase 0) is already pushed.
-        // If the size was even, the last number (generated in phase 1) is already pushed.
+        // --- 2. Normalize and Scale the counts ---
+        let people_remaining = size; // Track the total count to ensure it exactly equals `size`
 
-        return population;
+        // The sum of all PDF values over the discrete range [0, 119] is total_pdf_sum.
+        // We use this to normalize the counts so that they sum up to 'size'.
+
+        for (let age = MIN_AGE; age <= MAX_AGE; age++) {
+          const raw_pdf = raw_pdf_values[age];
+
+          // Calculate the proportion (how much this age contributes to the total)
+          const proportion = raw_pdf / total_pdf_sum;
+
+          // Calculate the expected count
+          // We use Math.floor() here to save the rounding for the last step and keep totals accurate
+          const expected_count = Math.floor(proportion * size);
+
+          ageMap[age] = expected_count;
+          people_remaining -= expected_count;
+        }
+
+        // --- 3. Final Adjustment (To ensure the total count is exactly 'size') ---
+        // The floor() operation above might leave a small remainder (people_remaining).
+        // We distribute this remainder, one person at a time, to the ages with the highest
+        // *fractional* remainder before they were floored.
+
+        // In a simpler approach for a bell curve, we can just add the remainder to the age
+        // closest to the mean, which is statistically the most robust bin.
+        const closest_age_to_mean = Math.round(mean);
+        const final_adjust_age = Math.max(
+          MIN_AGE,
+          Math.min(MAX_AGE, closest_age_to_mean)
+        );
+
+        // If the remainder is positive, add it to the most prominent age group.
+        if (people_remaining > 0) {
+          // Ensure the age bucket exists if it wasn't populated due to Math.floor(0)
+          ageMap[final_adjust_age] =
+            (ageMap[final_adjust_age] || 0) + people_remaining;
+        }
+
+        // Note: The keys of the object will be strings, as is standard for JavaScript object keys.
+        return ageMap;
       }
 
       let populationChart = null;
@@ -313,15 +363,18 @@
         );
         const medianAge = parseInt(document.getElementById("medianAge").value);
         const years = parseInt(document.getElementById("years").value);
-        const stdDev = 13.4;
+        const stdDev = parseInt(
+          document.getElementById("standardDeviation").value
+        );
         //step 2: Generate initial population age distribution
-        let populationAges = generateNormalPopulation(
+        let populationAges = generateNormalPopulationMap(
           medianAge,
           stdDev,
           initialPopulation
         );
 
-        print(populationAges);
+        //console log the population ages
+        console.log(populationAges);
       }
 
       // --- Initialization Logic ---

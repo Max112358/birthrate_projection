@@ -135,7 +135,7 @@
       </p>
 
       <div class="input-group">
-        <label for="initialPopulation">Initial Population ($P_i$):</label>
+        <label for="initialPopulation">Initial Population:</label>
         <input
           type="text"
           id="initialPopulation"
@@ -200,6 +200,58 @@
     </div>
 
     <script>
+      // --- Bell Curve Generation ---
+      /**
+       * Generates an array of numbers that approximate a normal distribution (bell curve).
+       *
+       * @param {number} mean - The desired mean (center/median) of the population.
+       * @param {number} stdDev - The desired standard deviation (spread) of the population.
+       * @param {number} size - The number of data points to generate.
+       * @returns {number[]} An array of 'size' numbers centered around 'mean' with 'stdDev' spread.
+       */
+      function generateNormalPopulation(mean, stdDev, size) {
+        const population = [];
+
+        // The Box-Muller Transform is used here to generate normally distributed random numbers
+        // from two uniformly distributed random numbers (Math.random()).
+        // It processes two numbers per iteration, so we handle the 'size' carefully.
+
+        let phase = 0;
+        let Z0, Z1; // The two generated normal random variables
+
+        for (let i = 0; i < size; i++) {
+          let rand_val;
+
+          if (phase === 0) {
+            // Phase 0: Generate two new standard normal variables (Z0, Z1)
+            let U1 = Math.random();
+            let U2 = Math.random();
+
+            // Calculate Z0 and Z1 using the Box-Muller transform
+            Z0 = Math.sqrt(-2.0 * Math.log(U1)) * Math.cos(2.0 * Math.PI * U2);
+            Z1 = Math.sqrt(-2.0 * Math.log(U1)) * Math.sin(2.0 * Math.PI * U2);
+
+            // The standard normal variable Z0 has a mean of 0 and stdDev of 1.
+            // Convert Z0 to the desired distribution (mean and stdDev)
+            rand_val = Z0 * stdDev + mean;
+          } else {
+            // Phase 1: Use the second generated variable Z1 from the previous iteration
+            // Convert Z1 to the desired distribution (mean and stdDev)
+            rand_val = Z1 * stdDev + mean;
+          }
+
+          // Toggle the phase for the next iteration
+          phase = 1 - phase;
+
+          population.push(rand_val);
+        }
+
+        // If the size was odd, the last number (generated in phase 0) is already pushed.
+        // If the size was even, the last number (generated in phase 1) is already pushed.
+
+        return population;
+      }
+
       let populationChart = null;
       // Define dark mode colors for Chart.js
       const chartAccentColor = getComputedStyle(document.documentElement)
@@ -248,225 +300,28 @@
       // --- End New Formatting Functions ---
 
       function simulatePopulation() {
-        const initialPopElement = document.getElementById("initialPopulation");
+        //step 1: Get input values
+        const initialPopInput = document.getElementById("initialPopulation");
 
-        // *** CRITICAL CHANGE ***: Read the raw value from the data attribute
-        const initialPop = parseFloat(
-          initialPopElement.getAttribute("data-number-value")
+        //standard deviation: 13.4 years
+        const initialPopulation = parseInt(
+          initialPopInput.getAttribute("data-number-value")
         );
         const tfr = parseFloat(document.getElementById("tfr").value);
-        const lifeExp = parseFloat(
+        const lifeExpectancy = parseInt(
           document.getElementById("lifeExpectancy").value
         );
-        const medianAge = parseFloat(
-          document.getElementById("medianAge").value
-        );
+        const medianAge = parseInt(document.getElementById("medianAge").value);
         const years = parseInt(document.getElementById("years").value);
-
-        if (
-          [initialPop, tfr, lifeExp, medianAge, years].some(isNaN) ||
-          initialPop <= 0
-        ) {
-          alert(
-            "Please ensure Initial Population is a valid number greater than 0, and all other fields are filled correctly."
-          );
-          return;
-        }
-
-        const maxAge = Math.max(Math.ceil(lifeExp * 1.5), 3);
-        const burnYears = Math.max(5 * maxAge, 200); // enough to converge
-
-        // Build a stable age structure via burn-in from a 1-person seed
-        let populationByAge = buildStablePopulation(
-          tfr,
-          lifeExp,
-          maxAge,
-          burnYears
+        const stdDev = 13.4;
+        //step 2: Generate initial population age distribution
+        let populationAges = generateNormalPopulation(
+          medianAge,
+          stdDev,
+          initialPopulation
         );
 
-        // Nudge median age smoothly if requested
-        const currentMedian = computeMedianAge(populationByAge);
-        const shift = medianAge - currentMedian;
-        if (Math.abs(shift) > 0.05)
-          populationByAge = fractionalShift(populationByAge, shift);
-
-        // Scale to the requested initial population total
-        const sum = populationByAge.reduce((a, b) => a + b, 0);
-        populationByAge = populationByAge.map((v) => v * (initialPop / sum));
-
-        // Run the main projection
-        const results = [];
-        for (let year = 0; year <= years; year++) {
-          const totalPop = populationByAge.reduce((a, b) => a + b, 0);
-          results.push(totalPop);
-
-          // Births: The population aged 15..49 (inclusive of 15, exclusive of 50).
-          const startF = Math.max(0, 15);
-          const endF = Math.min(maxAge, 50);
-          const fertilePopulation = populationByAge
-            .slice(startF, endF)
-            .reduce((a, b) => a + b, 0);
-
-          // 1. Assume 50% of the fertile population are women.
-          const women = fertilePopulation / 2;
-          // 2. Divide TFR by 2 (approx GRR) and by 35 (fertility years) for annual female births per woman.
-          const femaleBirthsPerWomanPerYear = tfr / 2 / 35;
-          // 3. Total new newborns (age 0) are total births (M+F).
-          const totalBirths = women * femaleBirthsPerWomanPerYear * 2;
-
-          // Age population: apply survival of age a to those at age a (moving them into a+1)
-          const newAges = new Array(maxAge).fill(0);
-          for (let a = 0; a < maxAge - 1; a++) {
-            const surv = annualSurvival(a, lifeExp); // survival for age a -> a+1
-            newAges[a + 1] = populationByAge[a] * surv;
-          }
-          newAges[0] = totalBirths; // Use the corrected total births
-          populationByAge = newAges;
-        }
-
-        const finalPop = results[results.length - 1];
-        const change = finalPop - initialPop;
-        const pctChange = ((change / initialPop) * 100).toFixed(2);
-
-        document.getElementById("results").style.display = "block";
-        document.getElementById("finalPop").textContent =
-          finalPop.toLocaleString(undefined, { maximumFractionDigits: 0 });
-        document.getElementById("change").textContent =
-          (change >= 0 ? "+" : "") +
-          change.toLocaleString(undefined, { maximumFractionDigits: 0 });
-        document.getElementById("pctChange").textContent =
-          (pctChange >= 0 ? "+" : "") + pctChange + "%";
-
-        drawChart(results);
-      }
-
-      // Build stable population via burn-in
-      function buildStablePopulation(tfr, lifeExp, maxAge, burnYears) {
-        let pop = new Array(maxAge).fill(0);
-        pop[0] = 1.0; // single newborn seed
-
-        for (let y = 0; y < burnYears; y++) {
-          const fertilePopulation = pop
-            .slice(15, 50)
-            .reduce((a, b) => a + b, 0);
-          const women = fertilePopulation / 2;
-          const femaleBirthsPerWomanPerYear = tfr / 2 / 35;
-          const totalBirths = women * femaleBirthsPerWomanPerYear * 2;
-
-          const next = new Array(maxAge).fill(0);
-          for (let a = 0; a < maxAge - 1; a++) {
-            next[a + 1] = pop[a] * annualSurvival(a, lifeExp);
-          }
-          next[0] = totalBirths;
-          pop = next;
-        }
-
-        const total = pop.reduce((a, b) => a + b, 0);
-        return pop.map((v) => v / total);
-      }
-
-      // Simple, stable annual survival
-      function annualSurvival(age, lifeExp) {
-        // This is a simple, uniform survival model for stability, not a true life table.
-        const annualSurvivalRate = Math.exp(-1.0 / Math.max(lifeExp, 1));
-        return annualSurvivalRate;
-      }
-
-      // Compute median age (fractional inside bin)
-      function computeMedianAge(arr) {
-        const total = arr.reduce((a, b) => a + b, 0);
-        let cum = 0;
-        for (let i = 0; i < arr.length; i++) {
-          const prev = cum;
-          cum += arr[i];
-          if (cum >= total / 2) {
-            const within = (total / 2 - prev) / (arr[i] || 1);
-            return i + within;
-          }
-        }
-        return arr.length - 1;
-      }
-
-      // Fractional shift of distribution (positive => older)
-      function fractionalShift(arr, shift) {
-        const n = arr.length;
-        const out = new Array(n).fill(0);
-        for (let i = 0; i < n; i++) {
-          const src = i - shift;
-          const lo = Math.floor(src);
-          const hi = lo + 1;
-          const frac = src - lo;
-          if (lo >= 0 && lo < n) out[i] += arr[lo] * (1 - frac);
-          if (hi >= 0 && hi < n) out[i] += arr[hi] * frac;
-        }
-        const s = out.reduce((a, b) => a + b, 0);
-        const orig = arr.reduce((a, b) => a + b, 0);
-        if (s > 0) return out.map((v) => v * (orig / s));
-        return arr.slice();
-      }
-
-      // Charting
-      function drawChart(populationArray) {
-        const ctx = document.getElementById("populationChart").getContext("2d");
-        if (populationChart) populationChart.destroy();
-
-        populationChart = new Chart(ctx, {
-          type: "line",
-          data: {
-            labels: populationArray.map((_, i) => i),
-            datasets: [
-              {
-                label: "Population",
-                data: populationArray,
-                borderColor: chartAccentColor,
-                backgroundColor: chartAccentColor + "40", // Semi-transparent fill
-                borderWidth: 3,
-                fill: true,
-                tension: 0.4, // Smoother lines
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-              title: { display: false }, // Title is in the h2
-              legend: { display: false },
-              tooltip: {
-                callbacks: {
-                  label: (ctx) =>
-                    `Year ${ctx.label}: ${ctx.parsed.y.toLocaleString(
-                      undefined,
-                      { maximumFractionDigits: 0 }
-                    )}`,
-                },
-                backgroundColor: "rgba(30, 30, 30, 0.9)",
-                titleColor: chartAccentColor,
-                bodyColor: chartTextColor,
-              },
-            },
-            scales: {
-              x: {
-                title: { display: true, text: "Years", color: chartTextColor },
-                ticks: { color: chartTextColor },
-                grid: { color: chartGridColor },
-              },
-              y: {
-                title: {
-                  display: true,
-                  text: "Population",
-                  color: chartTextColor,
-                },
-                ticks: {
-                  callback: (v) =>
-                    v.toLocaleString(undefined, { maximumFractionDigits: 0 }),
-                  color: chartTextColor,
-                },
-                grid: { color: chartGridColor },
-              },
-            },
-          },
-        });
+        print(populationAges);
       }
 
       // --- Initialization Logic ---

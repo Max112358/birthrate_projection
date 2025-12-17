@@ -315,6 +315,19 @@
         }
       }
 
+      function getTotalPopulation(population) {
+        let total = 0;
+
+        for (const age in population) {
+          if (Object.prototype.hasOwnProperty.call(population, age)) {
+            total += population[age].m;
+            total += population[age].f;
+          }
+        }
+
+        return total;
+      }
+
       let populationChart = null;
       // Define dark mode colors for Chart.js
       const chartAccentColor = getComputedStyle(document.documentElement)
@@ -502,7 +515,7 @@
           population = nextYearPopulation;
         } //end of year loop
 
-        console.log(population);
+        console.log(getTotalPopulation(population));
       }
 
       // --- Initialization Logic ---

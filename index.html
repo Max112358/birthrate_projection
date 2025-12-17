@@ -155,7 +155,7 @@
           type="number"
           id="lifeExpectancy"
           value="80"
-          step="1"
+          step="0.1"
           min="1"
           max="120"
         />
@@ -167,7 +167,7 @@
           type="number"
           id="medianAge"
           value="38.8"
-          step="1"
+          step="0.1"
           min="0"
           max="120"
         />
@@ -181,9 +181,21 @@
           type="number"
           id="standardDeviation"
           value="13.4"
-          step="1"
+          step="0.1"
           min="0"
           max="60"
+        />
+      </div>
+
+      <div class="input-group">
+        <label for="percentMaleAtBirth">Percentage of males at birth:</label>
+        <input
+          type="number"
+          id="percentMaleAtBirth"
+          value="51.2"
+          step="0.1"
+          min="0"
+          max="100"
         />
       </div>
 
@@ -214,91 +226,68 @@
     </div>
 
     <script>
-      /**
-       * @name calculatePDFCount
-       * @description Calculates the expected frequency map (population count) for ages
-       * from 0 to 119 directly using the Normal Distribution's PDF,
-       * eliminating the need for millions of random number generations.
-       *
-       * @param {number} mean - The desired mean (center/median) of the population.
-       * @param {number} stdDev - The desired standard deviation (spread) of the population.
-       * @param {number} size - The total number of data points (people) to generate (e.g., 300,000,000).
-       * @returns {Object<number, number>} An object where keys are the age (0-119) and values
-       * are the rounded count of people at that age.
-       */
-      function generateNormalPopulationMap(mean, stdDev, size) {
+      function generateGenderedPopulationMap(
+        mean,
+        stdDev,
+        size,
+        maleBirthPercentage
+      ) {
         const ageMap = {};
         const MIN_AGE = 0;
         const MAX_AGE = 119;
-        const TWO_PI_SQRT = Math.sqrt(2 * Math.PI); // Pre-calculate sqrt(2*pi)
+        const TWO_PI_SQRT = Math.sqrt(2 * Math.PI);
 
-        // The Normal Distribution's Probability Density Function (PDF)
-        // PDF(x) = (1 / (stdDev * sqrt(2*pi))) * e^(-0.5 * ((x - mean) / stdDev)^2)
+        const maleRatio = maleBirthPercentage / 100;
+        const femaleRatio = 1 - maleRatio;
 
-        // We can pre-calculate the leading constant
+        // PDF Constant calculation
         const pdf_constant = 1.0 / (stdDev * TWO_PI_SQRT);
 
-        // --- 1. Calculate the raw (un-normalized) PDF value for each age ---
+        // --- 1. Calculate PDF values ---
         let total_pdf_sum = 0;
         const raw_pdf_values = {};
 
-        // Loop only over the 120 age buckets (0 to 119)
         for (let age = MIN_AGE; age <= MAX_AGE; age++) {
-          // Z-score calculation: how many standard deviations is this age from the mean?
           const z = (age - mean) / stdDev;
-
-          // PDF core: e^(-0.5 * Z^2)
-          // Use Math.exp() for e^()
-          const pdf_core = Math.exp(-0.5 * z * z);
-
-          // Full PDF value for this age
-          const pdf_value = pdf_constant * pdf_core;
+          const pdf_value = pdf_constant * Math.exp(-0.5 * z * z);
 
           raw_pdf_values[age] = pdf_value;
           total_pdf_sum += pdf_value;
         }
 
-        // --- 2. Normalize and Scale the counts ---
-        let people_remaining = size; // Track the total count to ensure it exactly equals `size`
-
-        // The sum of all PDF values over the discrete range [0, 119] is total_pdf_sum.
-        // We use this to normalize the counts so that they sum up to 'size'.
+        // --- 2. Normalize, Scale, and Split by Gender ---
+        let total_assigned = 0;
 
         for (let age = MIN_AGE; age <= MAX_AGE; age++) {
-          const raw_pdf = raw_pdf_values[age];
+          const proportion = raw_pdf_values[age] / total_pdf_sum;
+          const total_at_age = Math.floor(proportion * size);
 
-          // Calculate the proportion (how much this age contributes to the total)
-          const proportion = raw_pdf / total_pdf_sum;
+          // Split the total at this age by the birth percentage
+          const males = Math.round(total_at_age * maleRatio);
+          const females = total_at_age - males;
 
-          // Calculate the expected count
-          // We use Math.floor() here to save the rounding for the last step and keep totals accurate
-          const expected_count = Math.floor(proportion * size);
-
-          ageMap[age] = expected_count;
-          people_remaining -= expected_count;
+          ageMap[age] = { m: males, f: females };
+          total_assigned += males + females;
         }
 
-        // --- 3. Final Adjustment (To ensure the total count is exactly 'size') ---
-        // The floor() operation above might leave a small remainder (people_remaining).
-        // We distribute this remainder, one person at a time, to the ages with the highest
-        // *fractional* remainder before they were floored.
+        // --- 3. Final Adjustment ---
+        // If size is 10,000, we ensure exactly 10,000 people are created
+        let people_remaining = size - total_assigned;
 
-        // In a simpler approach for a bell curve, we can just add the remainder to the age
-        // closest to the mean, which is statistically the most robust bin.
-        const closest_age_to_mean = Math.round(mean);
-        const final_adjust_age = Math.max(
-          MIN_AGE,
-          Math.min(MAX_AGE, closest_age_to_mean)
-        );
+        if (people_remaining !== 0) {
+          const adjustAge = Math.max(
+            MIN_AGE,
+            Math.min(MAX_AGE, Math.round(mean))
+          );
 
-        // If the remainder is positive, add it to the most prominent age group.
-        if (people_remaining > 0) {
-          // Ensure the age bucket exists if it wasn't populated due to Math.floor(0)
-          ageMap[final_adjust_age] =
-            (ageMap[final_adjust_age] || 0) + people_remaining;
+          // Distribute remaining people to the mean age, maintaining ratio
+          const extra_males = Math.round(people_remaining * maleRatio);
+          const extra_females = people_remaining - extra_males;
+
+          ageMap[adjustAge].m += extra_males;
+          ageMap[adjustAge].f += extra_females;
         }
 
-        // Note: The keys of the object will be strings, as is standard for JavaScript object keys.
         return ageMap;
       }
 
@@ -349,11 +338,10 @@
 
       // --- End New Formatting Functions ---
 
-      function simulatePopulation() {
+      async function simulatePopulation() {
         //step 1: Get input values
         const initialPopInput = document.getElementById("initialPopulation");
 
-        //standard deviation: 13.4 years
         const initialPopulation = parseInt(
           initialPopInput.getAttribute("data-number-value")
         );
@@ -362,23 +350,139 @@
           document.getElementById("lifeExpectancy").value
         );
         const medianAge = parseInt(document.getElementById("medianAge").value);
-        const years = parseInt(document.getElementById("years").value);
+        const yearsToSimulate = parseInt(
+          document.getElementById("years").value
+        );
         const stdDev = parseInt(
           document.getElementById("standardDeviation").value
         );
+        const percentMaleAtBirth = parseInt(
+          document.getElementById("percentMaleAtBirth").value
+        );
+
+        let life_expectancy;
+        try {
+          const response = await fetch("life_expectancy.json");
+          life_expectancy = await response.json();
+        } catch (e) {
+          console.error(
+            "Could not load life_expectancy.json. Ensure it's in the same folder.",
+            e
+          );
+          return;
+        }
+
         //step 2: Generate initial population age distribution
-        let populationAges = generateNormalPopulationMap(
+        let population = generateGenderedPopulationMap(
           medianAge,
           stdDev,
-          initialPopulation
+          initialPopulation,
+          percentMaleAtBirth
         );
 
         //console log the population ages
-        console.log(populationAges);
+        //console.log(population);
+
+        //step 3: Simulate year by year
+        //if we double loop it, thats 120 ages * years number of calculations
+        for (let i = 0; i < yearsToSimulate; i++) {
+          let childrenBornThisYear = 0;
+
+          for (const age in population) {
+            if (Object.prototype.hasOwnProperty.call(population, age)) {
+              // Access the female count from our new object structure { m: #, f: # }
+              const womenAtAge = population[age].f;
+              const ageNum = parseInt(age);
+
+              // --- Fertility Logic ---
+              // If TFR is 2.1, a woman has 1 child at 20, 1 at 21, and 0.1 at 22.
+              // We calculate how many "children per woman" are allocated to this specific age.
+
+              const yearsSinceFertilityStart = ageNum - 20;
+              let birthsPerWomanThisYear = 0;
+
+              if (yearsSinceFertilityStart >= 0) {
+                const remainingTFR = tfr - yearsSinceFertilityStart;
+
+                if (remainingTFR >= 1) {
+                  birthsPerWomanThisYear = 1;
+                } else if (remainingTFR > 0) {
+                  birthsPerWomanThisYear = remainingTFR;
+                }
+              }
+
+              // Add to the total birth pool
+              childrenBornThisYear += womenAtAge * birthsPerWomanThisYear;
+            }
+          }
+
+          console.log(
+            `Year ${i + 1}: Total children born: ${Math.round(
+              childrenBornThisYear
+            )}`
+          );
+
+          //now that we know how many kids were born, we age the population
+          // 1. Create a new population object for the next year
+          const nextYearPopulation = {};
+
+          // Initialize all buckets from 0 to 119 with zero counts
+          for (let i = 0; i <= 119; i++) {
+            nextYearPopulation[i] = { m: 0, f: 0 };
+          }
+
+          // 2. Add the newborns to age 0
+          const maleNewborns = Math.round(
+            childrenBornThisYear * (percentMaleAtBirth / 100)
+          );
+          const femaleNewborns =
+            Math.round(childrenBornThisYear) - maleNewborns;
+          nextYearPopulation[0] = { m: maleNewborns, f: femaleNewborns };
+
+          // 3. Age the existing population
+          for (const age in population) {
+            if (Object.prototype.hasOwnProperty.call(population, age)) {
+              const ageNum = parseInt(age);
+              const currentGroup = population[age];
+
+              // Skip if we are at the max age (they "pass away" or leave the simulation)
+              if (ageNum >= 119) continue;
+
+              // Calculate survivors for Males
+              const maleDeathRate = getDeathRateForAge(
+                ageNum,
+                "Male",
+                life_expectancy
+              );
+              const maleSurvivors = Math.round(
+                currentGroup.m * (1 - maleDeathRate)
+              );
+
+              // Calculate survivors for Females
+              const femaleDeathRate = getDeathRateForAge(
+                ageNum,
+                "Female",
+                life_expectancy
+              );
+              const femaleSurvivors = Math.round(
+                currentGroup.f * (1 - femaleDeathRate)
+              );
+
+              // Move survivors to the next age bucket
+              nextYearPopulation[ageNum + 1].m += maleSurvivors;
+              nextYearPopulation[ageNum + 1].f += femaleSurvivors;
+            }
+          }
+
+          // 4. Overwrite the old population with the new one for the next year of simulation
+          population = nextYearPopulation;
+        } //end of year loop
+
+        console.log(population);
       }
 
       // --- Initialization Logic ---
-      window.onload = () => {
+      window.onload = async () => {
         const initialPopInput = document.getElementById("initialPopulation");
 
         // 1. Initial format of the default value

@@ -1,0 +1,1082 @@
+[
+    {
+        "Exact age":0,
+        "Male Death probability":0.006064,
+        "Male Number of lives":100000,
+        "Male Life expectancy":74.74,
+        "Female Death probability":0.005119,
+        "Female Number of lives":100000,
+        "Female Life expectancy":80.18
+    },
+    {
+        "Exact age":1,
+        "Male Death probability":0.000491,
+        "Male Number of lives":99394,
+        "Male Life expectancy":74.2,
+        "Female Death probability":0.000398,
+        "Female Number of lives":99488,
+        "Female Life expectancy":79.6
+    },
+    {
+        "Exact age":2,
+        "Male Death probability":0.000309,
+        "Male Number of lives":99345,
+        "Male Life expectancy":73.23,
+        "Female Death probability":0.00024,
+        "Female Number of lives":99449,
+        "Female Life expectancy":78.63
+    },
+    {
+        "Exact age":3,
+        "Male Death probability":0.000248,
+        "Male Number of lives":99314,
+        "Male Life expectancy":72.25,
+        "Female Death probability":0.000198,
+        "Female Number of lives":99425,
+        "Female Life expectancy":77.65
+    },
+    {
+        "Exact age":4,
+        "Male Death probability":0.000199,
+        "Male Number of lives":99290,
+        "Male Life expectancy":71.27,
+        "Female Death probability":0.00016,
+        "Female Number of lives":99405,
+        "Female Life expectancy":76.66
+    },
+    {
+        "Exact age":5,
+        "Male Death probability":0.000167,
+        "Male Number of lives":99270,
+        "Male Life expectancy":70.29,
+        "Female Death probability":0.000134,
+        "Female Number of lives":99389,
+        "Female Life expectancy":75.67
+    },
+    {
+        "Exact age":6,
+        "Male Death probability":0.000143,
+        "Male Number of lives":99253,
+        "Male Life expectancy":69.3,
+        "Female Death probability":0.000118,
+        "Female Number of lives":99376,
+        "Female Life expectancy":74.68
+    },
+    {
+        "Exact age":7,
+        "Male Death probability":0.000126,
+        "Male Number of lives":99239,
+        "Male Life expectancy":68.31,
+        "Female Death probability":0.000109,
+        "Female Number of lives":99364,
+        "Female Life expectancy":73.69
+    },
+    {
+        "Exact age":8,
+        "Male Death probability":0.000121,
+        "Male Number of lives":99226,
+        "Male Life expectancy":67.32,
+        "Female Death probability":0.000106,
+        "Female Number of lives":99353,
+        "Female Life expectancy":72.7
+    },
+    {
+        "Exact age":9,
+        "Male Death probability":0.000121,
+        "Male Number of lives":99214,
+        "Male Life expectancy":66.32,
+        "Female Death probability":0.000106,
+        "Female Number of lives":99343,
+        "Female Life expectancy":71.71
+    },
+    {
+        "Exact age":10,
+        "Male Death probability":0.000127,
+        "Male Number of lives":99202,
+        "Male Life expectancy":65.33,
+        "Female Death probability":0.000111,
+        "Female Number of lives":99332,
+        "Female Life expectancy":70.72
+    },
+    {
+        "Exact age":11,
+        "Male Death probability":0.000143,
+        "Male Number of lives":99190,
+        "Male Life expectancy":64.34,
+        "Female Death probability":0.000121,
+        "Female Number of lives":99321,
+        "Female Life expectancy":69.72
+    },
+    {
+        "Exact age":12,
+        "Male Death probability":0.000171,
+        "Male Number of lives":99176,
+        "Male Life expectancy":63.35,
+        "Female Death probability":0.00014,
+        "Female Number of lives":99309,
+        "Female Life expectancy":68.73
+    },
+    {
+        "Exact age":13,
+        "Male Death probability":0.000227,
+        "Male Number of lives":99159,
+        "Male Life expectancy":62.36,
+        "Female Death probability":0.000162,
+        "Female Number of lives":99295,
+        "Female Life expectancy":67.74
+    },
+    {
+        "Exact age":14,
+        "Male Death probability":0.00032,
+        "Male Number of lives":99136,
+        "Male Life expectancy":61.37,
+        "Female Death probability":0.000188,
+        "Female Number of lives":99279,
+        "Female Life expectancy":66.75
+    },
+    {
+        "Exact age":15,
+        "Male Death probability":0.000451,
+        "Male Number of lives":99104,
+        "Male Life expectancy":60.39,
+        "Female Death probability":0.000224,
+        "Female Number of lives":99260,
+        "Female Life expectancy":65.76
+    },
+    {
+        "Exact age":16,
+        "Male Death probability":0.000622,
+        "Male Number of lives":99060,
+        "Male Life expectancy":59.42,
+        "Female Death probability":0.000276,
+        "Female Number of lives":99238,
+        "Female Life expectancy":64.78
+    },
+    {
+        "Exact age":17,
+        "Male Death probability":0.000826,
+        "Male Number of lives":98998,
+        "Male Life expectancy":58.46,
+        "Female Death probability":0.000337,
+        "Female Number of lives":99211,
+        "Female Life expectancy":63.8
+    },
+    {
+        "Exact age":18,
+        "Male Death probability":0.001026,
+        "Male Number of lives":98916,
+        "Male Life expectancy":57.5,
+        "Female Death probability":0.000395,
+        "Female Number of lives":99177,
+        "Female Life expectancy":62.82
+    },
+    {
+        "Exact age":19,
+        "Male Death probability":0.001182,
+        "Male Number of lives":98815,
+        "Male Life expectancy":56.56,
+        "Female Death probability":0.00045,
+        "Female Number of lives":99138,
+        "Female Life expectancy":61.84
+    },
+    {
+        "Exact age":20,
+        "Male Death probability":0.001301,
+        "Male Number of lives":98698,
+        "Male Life expectancy":55.63,
+        "Female Death probability":0.000496,
+        "Female Number of lives":99094,
+        "Female Life expectancy":60.87
+    },
+    {
+        "Exact age":21,
+        "Male Death probability":0.001404,
+        "Male Number of lives":98570,
+        "Male Life expectancy":54.7,
+        "Female Death probability":0.000532,
+        "Female Number of lives":99044,
+        "Female Life expectancy":59.9
+    },
+    {
+        "Exact age":22,
+        "Male Death probability":0.001498,
+        "Male Number of lives":98431,
+        "Male Life expectancy":53.78,
+        "Female Death probability":0.000567,
+        "Female Number of lives":98992,
+        "Female Life expectancy":58.93
+    },
+    {
+        "Exact age":23,
+        "Male Death probability":0.001586,
+        "Male Number of lives":98284,
+        "Male Life expectancy":52.86,
+        "Female Death probability":0.00061,
+        "Female Number of lives":98936,
+        "Female Life expectancy":57.97
+    },
+    {
+        "Exact age":24,
+        "Male Death probability":0.001679,
+        "Male Number of lives":98128,
+        "Male Life expectancy":51.94,
+        "Female Death probability":0.00065,
+        "Female Number of lives":98875,
+        "Female Life expectancy":57.0
+    },
+    {
+        "Exact age":25,
+        "Male Death probability":0.001776,
+        "Male Number of lives":97963,
+        "Male Life expectancy":51.03,
+        "Female Death probability":0.000699,
+        "Female Number of lives":98811,
+        "Female Life expectancy":56.04
+    },
+    {
+        "Exact age":26,
+        "Male Death probability":0.001881,
+        "Male Number of lives":97789,
+        "Male Life expectancy":50.12,
+        "Female Death probability":0.000743,
+        "Female Number of lives":98742,
+        "Female Life expectancy":55.08
+    },
+    {
+        "Exact age":27,
+        "Male Death probability":0.001985,
+        "Male Number of lives":97605,
+        "Male Life expectancy":49.21,
+        "Female Death probability":0.000796,
+        "Female Number of lives":98669,
+        "Female Life expectancy":54.12
+    },
+    {
+        "Exact age":28,
+        "Male Death probability":0.002095,
+        "Male Number of lives":97412,
+        "Male Life expectancy":48.31,
+        "Female Death probability":0.000855,
+        "Female Number of lives":98590,
+        "Female Life expectancy":53.16
+    },
+    {
+        "Exact age":29,
+        "Male Death probability":0.002219,
+        "Male Number of lives":97208,
+        "Male Life expectancy":47.41,
+        "Female Death probability":0.000924,
+        "Female Number of lives":98506,
+        "Female Life expectancy":52.2
+    },
+    {
+        "Exact age":30,
+        "Male Death probability":0.002332,
+        "Male Number of lives":96992,
+        "Male Life expectancy":46.51,
+        "Female Death probability":0.000988,
+        "Female Number of lives":98415,
+        "Female Life expectancy":51.25
+    },
+    {
+        "Exact age":31,
+        "Male Death probability":0.002445,
+        "Male Number of lives":96766,
+        "Male Life expectancy":45.62,
+        "Female Death probability":0.001053,
+        "Female Number of lives":98318,
+        "Female Life expectancy":50.3
+    },
+    {
+        "Exact age":32,
+        "Male Death probability":0.002562,
+        "Male Number of lives":96529,
+        "Male Life expectancy":44.73,
+        "Female Death probability":0.001123,
+        "Female Number of lives":98214,
+        "Female Life expectancy":49.35
+    },
+    {
+        "Exact age":33,
+        "Male Death probability":0.002653,
+        "Male Number of lives":96282,
+        "Male Life expectancy":43.84,
+        "Female Death probability":0.001198,
+        "Female Number of lives":98104,
+        "Female Life expectancy":48.41
+    },
+    {
+        "Exact age":34,
+        "Male Death probability":0.002716,
+        "Male Number of lives":96026,
+        "Male Life expectancy":42.96,
+        "Female Death probability":0.001263,
+        "Female Number of lives":97986,
+        "Female Life expectancy":47.47
+    },
+    {
+        "Exact age":35,
+        "Male Death probability":0.002791,
+        "Male Number of lives":95765,
+        "Male Life expectancy":42.08,
+        "Female Death probability":0.001324,
+        "Female Number of lives":97863,
+        "Female Life expectancy":46.53
+    },
+    {
+        "Exact age":36,
+        "Male Death probability":0.002894,
+        "Male Number of lives":95498,
+        "Male Life expectancy":41.19,
+        "Female Death probability":0.001403,
+        "Female Number of lives":97733,
+        "Female Life expectancy":45.59
+    },
+    {
+        "Exact age":37,
+        "Male Death probability":0.002994,
+        "Male Number of lives":95222,
+        "Male Life expectancy":40.31,
+        "Female Death probability":0.001493,
+        "Female Number of lives":97596,
+        "Female Life expectancy":44.65
+    },
+    {
+        "Exact age":38,
+        "Male Death probability":0.003091,
+        "Male Number of lives":94937,
+        "Male Life expectancy":39.43,
+        "Female Death probability":0.001596,
+        "Female Number of lives":97450,
+        "Female Life expectancy":43.72
+    },
+    {
+        "Exact age":39,
+        "Male Death probability":0.003217,
+        "Male Number of lives":94643,
+        "Male Life expectancy":38.55,
+        "Female Death probability":0.0017,
+        "Female Number of lives":97295,
+        "Female Life expectancy":42.79
+    },
+    {
+        "Exact age":40,
+        "Male Death probability":0.003353,
+        "Male Number of lives":94339,
+        "Male Life expectancy":37.67,
+        "Female Death probability":0.001803,
+        "Female Number of lives":97129,
+        "Female Life expectancy":41.86
+    },
+    {
+        "Exact age":41,
+        "Male Death probability":0.003499,
+        "Male Number of lives":94022,
+        "Male Life expectancy":36.8,
+        "Female Death probability":0.001905,
+        "Female Number of lives":96954,
+        "Female Life expectancy":40.93
+    },
+    {
+        "Exact age":42,
+        "Male Death probability":0.003642,
+        "Male Number of lives":93693,
+        "Male Life expectancy":35.93,
+        "Female Death probability":0.002009,
+        "Female Number of lives":96769,
+        "Female Life expectancy":40.01
+    },
+    {
+        "Exact age":43,
+        "Male Death probability":0.003811,
+        "Male Number of lives":93352,
+        "Male Life expectancy":35.05,
+        "Female Death probability":0.002116,
+        "Female Number of lives":96575,
+        "Female Life expectancy":39.09
+    },
+    {
+        "Exact age":44,
+        "Male Death probability":0.003996,
+        "Male Number of lives":92997,
+        "Male Life expectancy":34.19,
+        "Female Death probability":0.002223,
+        "Female Number of lives":96371,
+        "Female Life expectancy":38.17
+    },
+    {
+        "Exact age":45,
+        "Male Death probability":0.004175,
+        "Male Number of lives":92625,
+        "Male Life expectancy":33.32,
+        "Female Death probability":0.002352,
+        "Female Number of lives":96156,
+        "Female Life expectancy":37.25
+    },
+    {
+        "Exact age":46,
+        "Male Death probability":0.004388,
+        "Male Number of lives":92238,
+        "Male Life expectancy":32.46,
+        "Female Death probability":0.002516,
+        "Female Number of lives":95930,
+        "Female Life expectancy":36.34
+    },
+    {
+        "Exact age":47,
+        "Male Death probability":0.004666,
+        "Male Number of lives":91833,
+        "Male Life expectancy":31.6,
+        "Female Death probability":0.002712,
+        "Female Number of lives":95689,
+        "Female Life expectancy":35.43
+    },
+    {
+        "Exact age":48,
+        "Male Death probability":0.004973,
+        "Male Number of lives":91405,
+        "Male Life expectancy":30.75,
+        "Female Death probability":0.002936,
+        "Female Number of lives":95429,
+        "Female Life expectancy":34.53
+    },
+    {
+        "Exact age":49,
+        "Male Death probability":0.005305,
+        "Male Number of lives":90950,
+        "Male Life expectancy":29.9,
+        "Female Death probability":0.003177,
+        "Female Number of lives":95149,
+        "Female Life expectancy":33.63
+    },
+    {
+        "Exact age":50,
+        "Male Death probability":0.005666,
+        "Male Number of lives":90468,
+        "Male Life expectancy":29.05,
+        "Female Death probability":0.003407,
+        "Female Number of lives":94847,
+        "Female Life expectancy":32.73
+    },
+    {
+        "Exact age":51,
+        "Male Death probability":0.006069,
+        "Male Number of lives":89955,
+        "Male Life expectancy":28.22,
+        "Female Death probability":0.003642,
+        "Female Number of lives":94524,
+        "Female Life expectancy":31.84
+    },
+    {
+        "Exact age":52,
+        "Male Death probability":0.006539,
+        "Male Number of lives":89409,
+        "Male Life expectancy":27.39,
+        "Female Death probability":0.003917,
+        "Female Number of lives":94180,
+        "Female Life expectancy":30.96
+    },
+    {
+        "Exact age":53,
+        "Male Death probability":0.007073,
+        "Male Number of lives":88825,
+        "Male Life expectancy":26.56,
+        "Female Death probability":0.004238,
+        "Female Number of lives":93811,
+        "Female Life expectancy":30.08
+    },
+    {
+        "Exact age":54,
+        "Male Death probability":0.007675,
+        "Male Number of lives":88196,
+        "Male Life expectancy":25.75,
+        "Female Death probability":0.004619,
+        "Female Number of lives":93413,
+        "Female Life expectancy":29.2
+    },
+    {
+        "Exact age":55,
+        "Male Death probability":0.008348,
+        "Male Number of lives":87520,
+        "Male Life expectancy":24.94,
+        "Female Death probability":0.00504,
+        "Female Number of lives":92982,
+        "Female Life expectancy":28.34
+    },
+    {
+        "Exact age":56,
+        "Male Death probability":0.009051,
+        "Male Number of lives":86789,
+        "Male Life expectancy":24.15,
+        "Female Death probability":0.005493,
+        "Female Number of lives":92513,
+        "Female Life expectancy":27.48
+    },
+    {
+        "Exact age":57,
+        "Male Death probability":0.009822,
+        "Male Number of lives":86003,
+        "Male Life expectancy":23.37,
+        "Female Death probability":0.005987,
+        "Female Number of lives":92005,
+        "Female Life expectancy":26.63
+    },
+    {
+        "Exact age":58,
+        "Male Death probability":0.010669,
+        "Male Number of lives":85159,
+        "Male Life expectancy":22.59,
+        "Female Death probability":0.006509,
+        "Female Number of lives":91454,
+        "Female Life expectancy":25.78
+    },
+    {
+        "Exact age":59,
+        "Male Death probability":0.011548,
+        "Male Number of lives":84250,
+        "Male Life expectancy":21.83,
+        "Female Death probability":0.007067,
+        "Female Number of lives":90859,
+        "Female Life expectancy":24.95
+    },
+    {
+        "Exact age":60,
+        "Male Death probability":0.012458,
+        "Male Number of lives":83277,
+        "Male Life expectancy":21.08,
+        "Female Death probability":0.007658,
+        "Female Number of lives":90217,
+        "Female Life expectancy":24.12
+    },
+    {
+        "Exact age":61,
+        "Male Death probability":0.013403,
+        "Male Number of lives":82240,
+        "Male Life expectancy":20.34,
+        "Female Death probability":0.008305,
+        "Female Number of lives":89526,
+        "Female Life expectancy":23.31
+    },
+    {
+        "Exact age":62,
+        "Male Death probability":0.01445,
+        "Male Number of lives":81138,
+        "Male Life expectancy":19.61,
+        "Female Death probability":0.008991,
+        "Female Number of lives":88782,
+        "Female Life expectancy":22.5
+    },
+    {
+        "Exact age":63,
+        "Male Death probability":0.015571,
+        "Male Number of lives":79965,
+        "Male Life expectancy":18.89,
+        "Female Death probability":0.009681,
+        "Female Number of lives":87984,
+        "Female Life expectancy":21.7
+    },
+    {
+        "Exact age":64,
+        "Male Death probability":0.016737,
+        "Male Number of lives":78720,
+        "Male Life expectancy":18.18,
+        "Female Death probability":0.010343,
+        "Female Number of lives":87132,
+        "Female Life expectancy":20.9
+    },
+    {
+        "Exact age":65,
+        "Male Death probability":0.017897,
+        "Male Number of lives":77402,
+        "Male Life expectancy":17.48,
+        "Female Death probability":0.011018,
+        "Female Number of lives":86231,
+        "Female Life expectancy":20.12
+    },
+    {
+        "Exact age":66,
+        "Male Death probability":0.019017,
+        "Male Number of lives":76017,
+        "Male Life expectancy":16.79,
+        "Female Death probability":0.011743,
+        "Female Number of lives":85281,
+        "Female Life expectancy":19.34
+    },
+    {
+        "Exact age":67,
+        "Male Death probability":0.020213,
+        "Male Number of lives":74572,
+        "Male Life expectancy":16.11,
+        "Female Death probability":0.012532,
+        "Female Number of lives":84279,
+        "Female Life expectancy":18.56
+    },
+    {
+        "Exact age":68,
+        "Male Death probability":0.021569,
+        "Male Number of lives":73064,
+        "Male Life expectancy":15.43,
+        "Female Death probability":0.013512,
+        "Female Number of lives":83223,
+        "Female Life expectancy":17.79
+    },
+    {
+        "Exact age":69,
+        "Male Death probability":0.023088,
+        "Male Number of lives":71488,
+        "Male Life expectancy":14.76,
+        "Female Death probability":0.014684,
+        "Female Number of lives":82099,
+        "Female Life expectancy":17.03
+    },
+    {
+        "Exact age":70,
+        "Male Death probability":0.024828,
+        "Male Number of lives":69838,
+        "Male Life expectancy":14.09,
+        "Female Death probability":0.016025,
+        "Female Number of lives":80893,
+        "Female Life expectancy":16.27
+    },
+    {
+        "Exact age":71,
+        "Male Death probability":0.026705,
+        "Male Number of lives":68104,
+        "Male Life expectancy":13.44,
+        "Female Death probability":0.017468,
+        "Female Number of lives":79597,
+        "Female Life expectancy":15.53
+    },
+    {
+        "Exact age":72,
+        "Male Death probability":0.028761,
+        "Male Number of lives":66285,
+        "Male Life expectancy":12.8,
+        "Female Death probability":0.019195,
+        "Female Number of lives":78206,
+        "Female Life expectancy":14.8
+    },
+    {
+        "Exact age":73,
+        "Male Death probability":0.031116,
+        "Male Number of lives":64379,
+        "Male Life expectancy":12.16,
+        "Female Death probability":0.021195,
+        "Female Number of lives":76705,
+        "Female Life expectancy":14.08
+    },
+    {
+        "Exact age":74,
+        "Male Death probability":0.033861,
+        "Male Number of lives":62376,
+        "Male Life expectancy":11.53,
+        "Female Death probability":0.023452,
+        "Female Number of lives":75079,
+        "Female Life expectancy":13.37
+    },
+    {
+        "Exact age":75,
+        "Male Death probability":0.037088,
+        "Male Number of lives":60263,
+        "Male Life expectancy":10.92,
+        "Female Death probability":0.02598,
+        "Female Number of lives":73319,
+        "Female Life expectancy":12.68
+    },
+    {
+        "Exact age":76,
+        "Male Death probability":0.041126,
+        "Male Number of lives":58028,
+        "Male Life expectancy":10.32,
+        "Female Death probability":0.029153,
+        "Female Number of lives":71414,
+        "Female Life expectancy":12.0
+    },
+    {
+        "Exact age":77,
+        "Male Death probability":0.045241,
+        "Male Number of lives":55642,
+        "Male Life expectancy":9.74,
+        "Female Death probability":0.032394,
+        "Female Number of lives":69332,
+        "Female Life expectancy":11.35
+    },
+    {
+        "Exact age":78,
+        "Male Death probability":0.049793,
+        "Male Number of lives":53125,
+        "Male Life expectancy":9.18,
+        "Female Death probability":0.035888,
+        "Female Number of lives":67086,
+        "Female Life expectancy":10.71
+    },
+    {
+        "Exact age":79,
+        "Male Death probability":0.054768,
+        "Male Number of lives":50479,
+        "Male Life expectancy":8.64,
+        "Female Death probability":0.039676,
+        "Female Number of lives":64678,
+        "Female Life expectancy":10.09
+    },
+    {
+        "Exact age":80,
+        "Male Death probability":0.06066,
+        "Male Number of lives":47715,
+        "Male Life expectancy":8.11,
+        "Female Death probability":0.044156,
+        "Female Number of lives":62112,
+        "Female Life expectancy":9.49
+    },
+    {
+        "Exact age":81,
+        "Male Death probability":0.067027,
+        "Male Number of lives":44820,
+        "Male Life expectancy":7.6,
+        "Female Death probability":0.049087,
+        "Female Number of lives":59370,
+        "Female Life expectancy":8.9
+    },
+    {
+        "Exact age":82,
+        "Male Death probability":0.073999,
+        "Male Number of lives":41816,
+        "Male Life expectancy":7.11,
+        "Female Death probability":0.054635,
+        "Female Number of lives":56455,
+        "Female Life expectancy":8.34
+    },
+    {
+        "Exact age":83,
+        "Male Death probability":0.081737,
+        "Male Number of lives":38722,
+        "Male Life expectancy":6.64,
+        "Female Death probability":0.061066,
+        "Female Number of lives":53371,
+        "Female Life expectancy":7.79
+    },
+    {
+        "Exact age":84,
+        "Male Death probability":0.090458,
+        "Male Number of lives":35557,
+        "Male Life expectancy":6.18,
+        "Female Death probability":0.068431,
+        "Female Number of lives":50112,
+        "Female Life expectancy":7.26
+    },
+    {
+        "Exact age":85,
+        "Male Death probability":0.100525,
+        "Male Number of lives":32340,
+        "Male Life expectancy":5.75,
+        "Female Death probability":0.076841,
+        "Female Number of lives":46683,
+        "Female Life expectancy":6.76
+    },
+    {
+        "Exact age":86,
+        "Male Death probability":0.111793,
+        "Male Number of lives":29089,
+        "Male Life expectancy":5.34,
+        "Female Death probability":0.086205,
+        "Female Number of lives":43095,
+        "Female Life expectancy":6.28
+    },
+    {
+        "Exact age":87,
+        "Male Death probability":0.124494,
+        "Male Number of lives":25837,
+        "Male Life expectancy":4.94,
+        "Female Death probability":0.096851,
+        "Female Number of lives":39380,
+        "Female Life expectancy":5.83
+    },
+    {
+        "Exact age":88,
+        "Male Death probability":0.138398,
+        "Male Number of lives":22621,
+        "Male Life expectancy":4.58,
+        "Female Death probability":0.109019,
+        "Female Number of lives":35566,
+        "Female Life expectancy":5.4
+    },
+    {
+        "Exact age":89,
+        "Male Death probability":0.153207,
+        "Male Number of lives":19490,
+        "Male Life expectancy":4.23,
+        "Female Death probability":0.121867,
+        "Female Number of lives":31689,
+        "Female Life expectancy":5.0
+    },
+    {
+        "Exact age":90,
+        "Male Death probability":0.169704,
+        "Male Number of lives":16504,
+        "Male Life expectancy":3.91,
+        "Female Death probability":0.135805,
+        "Female Number of lives":27827,
+        "Female Life expectancy":4.62
+    },
+    {
+        "Exact age":91,
+        "Male Death probability":0.187963,
+        "Male Number of lives":13703,
+        "Male Life expectancy":3.6,
+        "Female Death probability":0.151108,
+        "Female Number of lives":24048,
+        "Female Life expectancy":4.27
+    },
+    {
+        "Exact age":92,
+        "Male Death probability":0.208395,
+        "Male Number of lives":11128,
+        "Male Life expectancy":3.32,
+        "Female Death probability":0.16802,
+        "Female Number of lives":20414,
+        "Female Life expectancy":3.94
+    },
+    {
+        "Exact age":93,
+        "Male Death probability":0.230808,
+        "Male Number of lives":8809,
+        "Male Life expectancy":3.06,
+        "Female Death probability":0.18634,
+        "Female Number of lives":16984,
+        "Female Life expectancy":3.64
+    },
+    {
+        "Exact age":94,
+        "Male Death probability":0.253914,
+        "Male Number of lives":6776,
+        "Male Life expectancy":2.83,
+        "Female Death probability":0.206432,
+        "Female Number of lives":13819,
+        "Female Life expectancy":3.36
+    },
+    {
+        "Exact age":95,
+        "Male Death probability":0.277402,
+        "Male Number of lives":5055,
+        "Male Life expectancy":2.63,
+        "Female Death probability":0.228086,
+        "Female Number of lives":10967,
+        "Female Life expectancy":3.1
+    },
+    {
+        "Exact age":96,
+        "Male Death probability":0.300882,
+        "Male Number of lives":3653,
+        "Male Life expectancy":2.44,
+        "Female Death probability":0.250406,
+        "Female Number of lives":8465,
+        "Female Life expectancy":2.87
+    },
+    {
+        "Exact age":97,
+        "Male Death probability":0.324326,
+        "Male Number of lives":2554,
+        "Male Life expectancy":2.28,
+        "Female Death probability":0.273699,
+        "Female Number of lives":6346,
+        "Female Life expectancy":2.66
+    },
+    {
+        "Exact age":98,
+        "Male Death probability":0.347332,
+        "Male Number of lives":1726,
+        "Male Life expectancy":2.13,
+        "Female Death probability":0.296984,
+        "Female Number of lives":4609,
+        "Female Life expectancy":2.47
+    },
+    {
+        "Exact age":99,
+        "Male Death probability":0.36943,
+        "Male Number of lives":1126,
+        "Male Life expectancy":2.0,
+        "Female Death probability":0.319502,
+        "Female Number of lives":3240,
+        "Female Life expectancy":2.3
+    },
+    {
+        "Exact age":100,
+        "Male Death probability":0.391927,
+        "Male Number of lives":710,
+        "Male Life expectancy":1.88,
+        "Female Death probability":0.342716,
+        "Female Number of lives":2205,
+        "Female Life expectancy":2.14
+    },
+    {
+        "Exact age":101,
+        "Male Death probability":0.414726,
+        "Male Number of lives":432,
+        "Male Life expectancy":1.76,
+        "Female Death probability":0.366532,
+        "Female Number of lives":1449,
+        "Female Life expectancy":2.0
+    },
+    {
+        "Exact age":102,
+        "Male Death probability":0.437722,
+        "Male Number of lives":253,
+        "Male Life expectancy":1.66,
+        "Female Death probability":0.390844,
+        "Female Number of lives":918,
+        "Female Life expectancy":1.87
+    },
+    {
+        "Exact age":103,
+        "Male Death probability":0.4608,
+        "Male Number of lives":142,
+        "Male Life expectancy":1.56,
+        "Female Death probability":0.415531,
+        "Female Number of lives":559,
+        "Female Life expectancy":1.75
+    },
+    {
+        "Exact age":104,
+        "Male Death probability":0.48384,
+        "Male Number of lives":77,
+        "Male Life expectancy":1.47,
+        "Female Death probability":0.440463,
+        "Female Number of lives":327,
+        "Female Life expectancy":1.63
+    },
+    {
+        "Exact age":105,
+        "Male Death probability":0.508032,
+        "Male Number of lives":40,
+        "Male Life expectancy":1.39,
+        "Female Death probability":0.466891,
+        "Female Number of lives":183,
+        "Female Life expectancy":1.52
+    },
+    {
+        "Exact age":106,
+        "Male Death probability":0.533434,
+        "Male Number of lives":19,
+        "Male Life expectancy":1.31,
+        "Female Death probability":0.494904,
+        "Female Number of lives":97,
+        "Female Life expectancy":1.42
+    },
+    {
+        "Exact age":107,
+        "Male Death probability":0.560105,
+        "Male Number of lives":9,
+        "Male Life expectancy":1.23,
+        "Female Death probability":0.524599,
+        "Female Number of lives":49,
+        "Female Life expectancy":1.32
+    },
+    {
+        "Exact age":108,
+        "Male Death probability":0.588111,
+        "Male Number of lives":4,
+        "Male Life expectancy":1.15,
+        "Female Death probability":0.556075,
+        "Female Number of lives":23,
+        "Female Life expectancy":1.23
+    },
+    {
+        "Exact age":109,
+        "Male Death probability":0.617516,
+        "Male Number of lives":2,
+        "Male Life expectancy":1.08,
+        "Female Death probability":0.589439,
+        "Female Number of lives":10,
+        "Female Life expectancy":1.14
+    },
+    {
+        "Exact age":110,
+        "Male Death probability":0.648392,
+        "Male Number of lives":1,
+        "Male Life expectancy":1.01,
+        "Female Death probability":0.624805,
+        "Female Number of lives":4,
+        "Female Life expectancy":1.05
+    },
+    {
+        "Exact age":111,
+        "Male Death probability":0.680812,
+        "Male Number of lives":0,
+        "Male Life expectancy":0.94,
+        "Female Death probability":0.662294,
+        "Female Number of lives":2,
+        "Female Life expectancy":0.97
+    },
+    {
+        "Exact age":112,
+        "Male Death probability":0.714852,
+        "Male Number of lives":0,
+        "Male Life expectancy":0.87,
+        "Female Death probability":0.702031,
+        "Female Number of lives":1,
+        "Female Life expectancy":0.89
+    },
+    {
+        "Exact age":113,
+        "Male Death probability":0.750595,
+        "Male Number of lives":0,
+        "Male Life expectancy":0.81,
+        "Female Death probability":0.744153,
+        "Female Number of lives":0,
+        "Female Life expectancy":0.82
+    },
+    {
+        "Exact age":114,
+        "Male Death probability":0.788125,
+        "Male Number of lives":0,
+        "Male Life expectancy":0.75,
+        "Female Death probability":0.788125,
+        "Female Number of lives":0,
+        "Female Life expectancy":0.75
+    },
+    {
+        "Exact age":115,
+        "Male Death probability":0.827531,
+        "Male Number of lives":0,
+        "Male Life expectancy":0.7,
+        "Female Death probability":0.827531,
+        "Female Number of lives":0,
+        "Female Life expectancy":0.7
+    },
+    {
+        "Exact age":116,
+        "Male Death probability":0.868907,
+        "Male Number of lives":0,
+        "Male Life expectancy":0.64,
+        "Female Death probability":0.868907,
+        "Female Number of lives":0,
+        "Female Life expectancy":0.64
+    },
+    {
+        "Exact age":117,
+        "Male Death probability":0.912353,
+        "Male Number of lives":0,
+        "Male Life expectancy":0.59,
+        "Female Death probability":0.912353,
+        "Female Number of lives":0,
+        "Female Life expectancy":0.59
+    },
+    {
+        "Exact age":118,
+        "Male Death probability":0.95797,
+        "Male Number of lives":0,
+        "Male Life expectancy":0.54,
+        "Female Death probability":0.95797,
+        "Female Number of lives":0,
+        "Female Life expectancy":0.54
+    },
+    {
+        "Exact age":119,
+        "Male Death probability":1.0,
+        "Male Number of lives":0,
+        "Male Life expectancy":0.5,
+        "Female Death probability":1.0,
+        "Female Number of lives":0,
+        "Female Life expectancy":0.5
+    }
+]

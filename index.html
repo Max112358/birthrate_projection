@@ -205,6 +205,11 @@
       </div>
 
       <div class="input-group">
+        <label for="firstBirthAge">First Born at Age:</label>
+        <input type="number" id="firstBirthAge" value="27" min="1" max="110" />
+      </div>
+
+      <div class="input-group">
         <label for="years">Years to Project:</label>
         <input type="number" id="years" value="100" min="1" max="300" />
       </div>
@@ -397,6 +402,10 @@
           document.getElementById("percentMaleAtBirth").value
         );
 
+        const firstBirthAge = parseInt(
+          document.getElementById("firstBirthAge").value
+        );
+
         let life_expectancy;
         try {
           const response = await fetch("life_expectancy.json");
@@ -432,10 +441,10 @@
               const ageNum = parseInt(age);
 
               // --- Fertility Logic ---
-              // If TFR is 2.1, a woman has 1 child at 20, 1 at 21, and 0.1 at 22.
+              // If TFR is 2.1 and first birth age is 27, a woman has 1 child at 27, 1 at 28, and 0.1 at 29.
               // We calculate how many "children per woman" are allocated to this specific age.
 
-              const yearsSinceFertilityStart = ageNum - 20;
+              const yearsSinceFertilityStart = ageNum - firstBirthAge;
               let birthsPerWomanThisYear = 0;
 
               if (yearsSinceFertilityStart >= 0) {

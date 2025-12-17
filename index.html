@@ -308,16 +308,20 @@
        * @param {object} lifeExpectancyData - The parsed JSON data.
        */
       function getDeathRateForAge(age, gender, lifeExpectancyData) {
-        // Ensure we don't go out of bounds of the data
         const safeAge = Math.min(age, 119);
 
-        try {
-          // Access data: lifeExpectancyData["Male"][age]
-          const rate = lifeExpectancyData[gender][safeAge];
-          return rate !== undefined ? rate : 0.01; // Default fallback rate
-        } catch (e) {
-          return 0.01; // Fallback if structure is missing
-        }
+        const row = lifeExpectancyData.find(
+          (entry) => entry["Exact age"] === safeAge
+        );
+
+        if (!row) return 0.01;
+
+        const key =
+          gender === "Male"
+            ? "Male Death probability"
+            : "Female Death probability";
+
+        return row[key] ?? 0.01;
       }
 
       function getTotalPopulation(population) {

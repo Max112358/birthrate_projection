@@ -305,23 +305,10 @@
        * Helper function to retrieve death rates from the loaded JSON data.
        * @param {number} age - The current age bucket.
        * @param {string} gender - "Male" or "Female".
-       * @param {object} lifeExpectancyData - The parsed JSON data.
        */
-      function getDeathRateForAge(age, gender, lifeExpectancyData) {
+      function getDeathRateForAge(age, gender) {
         const safeAge = Math.min(age, 119);
-
-        const row = lifeExpectancyData.find(
-          (entry) => entry["Exact age"] === safeAge
-        );
-
-        if (!row) return 0.01;
-
-        const key =
-          gender === "Male"
-            ? "Male Death probability"
-            : "Female Death probability";
-
-        return row[key] ?? 0.01;
+        return deathRateByAge[safeAge]?.[gender] ?? 0.01;
       }
 
       function getTotalPopulation(population) {
@@ -420,6 +407,18 @@
             e
           );
           return;
+        }
+
+        //parse the data into a lookup table for faster access
+        const deathRateByAge = {};
+
+        for (const row of life_expectancy) {
+          const age = row["Exact age"];
+
+          deathRateByAge[age] = {
+            Male: row["Male Death probability"],
+            Female: row["Female Death probability"],
+          };
         }
 
         //step 2: Generate initial population age distribution

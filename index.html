@@ -236,7 +236,9 @@
     </div>
 
     <script>
+      //declare global variables
       let deathRateByAge = {};
+      let populationDistribution = {};
 
       function generateGenderedPopulationMap(
         mean,
@@ -504,14 +506,27 @@
 
       // --- Initialization Logic ---
       window.onload = async () => {
-        const response = await fetch("life_expectancy.json");
-        const life_expectancy = await response.json();
-
+        // Load Death Rates
+        const deathResponse = await fetch("life_expectancy.json");
+        const life_expectancy = await deathResponse.json();
         for (const row of life_expectancy) {
           const age = row["Exact age"];
           deathRateByAge[age] = {
             Male: row["Male Death probability"],
             Female: row["Female Death probability"],
+          };
+        }
+
+        // Load Population Distribution
+        const distResponse = await fetch("population_distribution.json");
+        const distData = await distResponse.json();
+
+        // Convert "0.55%" strings to floats (0.0055)
+        for (const row of distData) {
+          const age = parseInt(row["Age"]);
+          populationDistribution[age] = {
+            mPercent: parseFloat(row["Male % of Population"]) / 100,
+            fPercent: parseFloat(row["Female % of Population"]) / 100,
           };
         }
 

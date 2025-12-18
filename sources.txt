@@ -1,0 +1,5 @@
+population distribution from the US census beaurau
+https://www.census.gov/popclock/data_tables.php?component=pyramid
+
+life expectancy from social security administration
+https://www.ssa.gov/oact/STATS/table4c6.html

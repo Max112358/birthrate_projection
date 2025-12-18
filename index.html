@@ -236,6 +236,8 @@
     </div>
 
     <script>
+      let deathRateByAge = {};
+
       function generateGenderedPopulationMap(
         mean,
         stdDev,
@@ -397,30 +399,6 @@
           document.getElementById("firstBirthAge").value
         );
 
-        let life_expectancy;
-        try {
-          const response = await fetch("life_expectancy.json");
-          life_expectancy = await response.json();
-        } catch (e) {
-          console.error(
-            "Could not load life_expectancy.json. Ensure it's in the same folder.",
-            e
-          );
-          return;
-        }
-
-        //parse the data into a lookup table for faster access
-        const deathRateByAge = {};
-
-        for (const row of life_expectancy) {
-          const age = row["Exact age"];
-
-          deathRateByAge[age] = {
-            Male: row["Male Death probability"],
-            Female: row["Female Death probability"],
-          };
-        }
-
         //step 2: Generate initial population age distribution
         let population = generateGenderedPopulationMap(
           medianAge,
@@ -498,21 +476,15 @@
               if (ageNum >= 119) continue;
 
               // Calculate survivors for Males
-              const maleDeathRate = getDeathRateForAge(
-                ageNum,
-                "Male",
-                life_expectancy
-              );
+              const maleDeathRate = getDeathRateForAge(ageNum, "Male");
+
               const maleSurvivors = Math.round(
                 currentGroup.m * (1 - maleDeathRate)
               );
 
               // Calculate survivors for Females
-              const femaleDeathRate = getDeathRateForAge(
-                ageNum,
-                "Female",
-                life_expectancy
-              );
+              const femaleDeathRate = getDeathRateForAge(ageNum, "Female");
+
               const femaleSurvivors = Math.round(
                 currentGroup.f * (1 - femaleDeathRate)
               );
@@ -532,6 +504,17 @@
 
       // --- Initialization Logic ---
       window.onload = async () => {
+        const response = await fetch("life_expectancy.json");
+        const life_expectancy = await response.json();
+
+        for (const row of life_expectancy) {
+          const age = row["Exact age"];
+          deathRateByAge[age] = {
+            Male: row["Male Death probability"],
+            Female: row["Female Death probability"],
+          };
+        }
+
         const initialPopInput = document.getElementById("initialPopulation");
 
         // 1. Initial format of the default value

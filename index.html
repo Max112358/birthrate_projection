@@ -305,6 +305,33 @@
         return ageMap;
       }
 
+      function generatePopulationFromDistribution(totalSize) {
+        const ageMap = {};
+        let totalAssigned = 0;
+
+        // We loop through our lookup table (0-119 usually)
+        for (let age = 0; age <= 119; age++) {
+          const dist = populationDistribution[age] || {
+            mPercent: 0,
+            fPercent: 0,
+          };
+
+          const males = Math.round(totalSize * dist.mPercent);
+          const females = Math.round(totalSize * dist.fPercent);
+
+          ageMap[age] = { m: males, f: females };
+          totalAssigned += males + females;
+        }
+
+        // Handle rounding discrepancies by adjusting age 0
+        let diff = totalSize - totalAssigned;
+        if (diff !== 0 && ageMap[0]) {
+          ageMap[0].f += diff;
+        }
+
+        return ageMap;
+      }
+
       /**
        * Helper function to retrieve death rates from the loaded JSON data.
        * @param {number} age - The current age bucket.
@@ -383,31 +410,12 @@
           initialPopInput.getAttribute("data-number-value")
         );
         const tfr = parseFloat(document.getElementById("tfr").value);
-        const lifeExpectancy = parseInt(
-          document.getElementById("lifeExpectancy").value
-        );
-        const medianAge = parseInt(document.getElementById("medianAge").value);
-        const yearsToSimulate = parseInt(
-          document.getElementById("years").value
-        );
-        const stdDev = parseInt(
-          document.getElementById("standardDeviation").value
-        );
-        const percentMaleAtBirth = parseInt(
-          document.getElementById("percentMaleAtBirth").value
-        );
-
         const firstBirthAge = parseInt(
           document.getElementById("firstBirthAge").value
         );
 
         //step 2: Generate initial population age distribution
-        let population = generateGenderedPopulationMap(
-          medianAge,
-          stdDev,
-          initialPopulation,
-          percentMaleAtBirth
-        );
+        let population = generatePopulationFromDistribution(initialPopulation);
 
         //console log the population ages
         //console.log(population);
